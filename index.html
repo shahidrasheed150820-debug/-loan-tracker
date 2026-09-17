@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#155e75">
+  <title>Utang Talaan — Loan Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">PERSONAL LOAN TRACKER</p>
+      <h1>Utang Talaan</h1>
+      <p class="subtitle">Simple records. Clear balances.</p>
+    </div>
+    <button class="primary compact" id="addLoanTop" type="button"><span aria-hidden="true">＋</span> New loan</button>
+  </header>
+
+  <main>
+    <section class="dashboard" aria-label="Loan summary">
+      <article class="metric lent"><span class="metric-icon">↗</span><div><p>Total lent</p><strong id="totalLent">₱0.00</strong></div></article>
+      <article class="metric collected"><span class="metric-icon">✓</span><div><p>Total collected</p><strong id="totalCollected">₱0.00</strong></div></article>
+      <article class="metric outstanding"><span class="metric-icon">◷</span><div><p>Outstanding</p><strong id="totalOutstanding">₱0.00</strong></div></article>
+    </section>
+
+    <section class="notice">
+      <span aria-hidden="true">☁</span>
+      <p><strong>Saved on this device only.</strong> Records stay after refresh, but do not sync between devices. Export a backup regularly.</p>
+    </section>
+
+    <section class="toolbar">
+      <label class="search"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Search borrower" autocomplete="off" aria-label="Search borrowers"></label>
+      <div class="backup-actions">
+        <button class="secondary" id="exportBtn" type="button">Export backup</button>
+        <button class="secondary" id="importBtn" type="button">Import backup</button>
+        <input type="file" id="importFile" accept="application/json,.json" hidden>
+      </div>
+    </section>
+
+    <div class="section-heading"><div><h2>Loans</h2><p id="loanCount">0 records</p></div></div>
+    <section id="loanList" class="loan-list" aria-live="polite"></section>
+    <section id="emptyState" class="empty" hidden><div>₱</div><h2>No loans found</h2><p>Add a loan or try another borrower name.</p><button class="primary" type="button" id="addLoanEmpty">Add your first loan</button></section>
+  </main>
+
+  <button id="floatingAdd" class="floating" type="button" aria-label="Add new loan">＋</button>
+
+  <dialog id="loanDialog">
+    <form id="loanForm" method="dialog">
+      <div class="dialog-head"><div><p class="eyebrow">LOAN DETAILS</p><h2 id="dialogTitle">Add new loan</h2></div><button class="icon-button" value="cancel" aria-label="Close" type="button" id="closeDialog">×</button></div>
+      <input type="hidden" id="loanId">
+      <label>Borrower name<input id="borrower" required maxlength="80" placeholder="e.g. Ana Reyes" autocomplete="name"></label>
+      <div class="form-grid">
+        <label>Loan amount (₱)<input id="amount" required type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="0.00"></label>
+        <label>Flat interest rate (%)<input id="rate" required type="number" min="0" max="1000" step="0.01" inputmode="decimal" placeholder="5"></label>
+        <label>Loan date<input id="loanDate" required type="date"></label>
+        <label>Due date<input id="dueDate" required type="date"></label>
+      </div>
+      <div class="calculation" aria-live="polite"><div><span>Interest</span><strong id="previewInterest">₱0.00</strong></div><div><span>Total due</span><strong id="previewTotal">₱0.00</strong></div></div>
+      <section class="payments-editor" id="paymentsSection" hidden>
+        <div class="payments-title"><div><h3>Payments</h3><p>Add or remove payment entries.</p></div><button type="button" class="text-button" id="addPayment">＋ Add payment</button></div>
+        <div id="paymentRows"></div>
+      </section>
+      <p class="form-error" id="formError" role="alert"></p>
+      <div class="dialog-actions"><button class="secondary" type="button" id="cancelDialog">Cancel</button><button class="primary" type="submit">Save loan</button></div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
