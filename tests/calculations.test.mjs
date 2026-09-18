@@ -24,6 +24,14 @@ test('retains full charges from previous anniversary cycles', () => {
   assert.equal(calculateOverdueInterest(1000, '2026-04-30', '2026-06-13'), 400);
 });
 
+test('calculates every overdue cycle from original principal without compounding', () => {
+  const highInitialInterest = { ...base, rate:50 };
+  const figures = loanFigures(highInitialInterest, '2026-06-13');
+  assert.equal(figures.initialInterest, 500);
+  assert.equal(figures.overdueInterest, 400);
+  assert.equal(figures.total, 1900);
+});
+
 test('clamps month-end anniversaries and uses the cycle start month length', () => {
   assert.equal(anniversary('2025-01-31', 1), '2025-02-28');
   assert.equal(anniversary('2025-01-31', 2), '2025-03-31');

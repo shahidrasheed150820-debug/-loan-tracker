@@ -17,3 +17,7 @@ node --test tests/calculations.test.mjs
 ```
 
 The app starts with fictional sample records so its dashboard and states are easy to try. Delete them whenever you are ready to enter real records. Data is saved only in the current browser and **does not sync between devices**; use **Export backup** and **Import backup** to move it.
+
+## Data compatibility
+
+Updates keep using the original `utang-talaan-loans-v1` browser-storage key and version 1 backup shape. Existing loans, their dated payment history, and previously exported JSON backups continue to load without conversion. Recurring overdue interest is calculated when a loan is displayed; it is not written into or compounded with the saved principal.
